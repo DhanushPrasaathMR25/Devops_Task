@@ -6,7 +6,7 @@ pipeline {
         REGISTRY = "docker.io"
         DOCKER_CREDENTIALS_ID = "Docker"
         GITHUB_CREDENTIALS_ID = "Github"
-        APP_DIR = "/opt/docker-kec"
+        APP_DIR = "." // Changed APP_DIR to current directory
     }
 
     stages {
@@ -19,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "cd $APP_DIR && docker build -t $IMAGE_NAME:latest ."
+                    sh "docker build -t $IMAGE_NAME:latest ." // Removed 'cd $APP_DIR &&'
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
         stage('Deploy using Docker Compose') {
             steps {
                 script {
-                    sh "cd $APP_DIR && docker-compose down && docker-compose up -d"
+                    sh "docker-compose down && docker-compose up -d" // Removed 'cd $APP_DIR &&'
                 }
             }
         }
